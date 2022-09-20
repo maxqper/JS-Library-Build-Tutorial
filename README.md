@@ -55,19 +55,19 @@ npm start
 
 ## Questions
 
-* What is the output of webpack for module-one and module-two?
+### What is the output of webpack for module-one and module-two?
 
 Webpack config has libraryTarget set to UMD (Universal Module Definition). This generates a bundle that can be installed and used with ES6 import/export OR downloaded with script tag to be used with a namespaced global variable. Essentially, there is a wrapper script in the generated bundle file that detects the environment and exposes the bundle accordingly.
 
-* How is the ES6 'import ClassOne from ModuleOne' inside ModuleTwo executed correctly when ModuleOne is loaded as a browser script with global variable webpackModuleOne? (i.e., we expect to use module one as 'new webpackModuleOne.ClassOne()' whereas ModuleTwo has code 'import ClassOne from ModuleOne')?
+### How is the ES6 'import ClassOne from ModuleOne' inside ModuleTwo executed correctly when ModuleOne is loaded as a browser script with global variable webpackModuleOne? (i.e., we expect to use module one as 'new webpackModuleOne.ClassOne()' whereas ModuleTwo has code 'import ClassOne from ModuleOne')?
 
 This depends on how the "externals" config is set in ModuleTwo. Externals config determines (1) if any dependencies of ModuleOne are excluded from its final bundle and (2) if excluded, how they are expected to be included later at runtime.
 
-* Option 1: NO Externals Config
+**Option 1: NO Externals Config**
 
 With this option, ModuleTwo **includes** Module One classes by default (and does not exclude anything) in its final generated webpack bundle. So, Module Two will NOT be dependent on the app's node installed or browser downloaded ModuleOne. Look at Experiment 1 to understand this better.
 
-* Option 2: Externals Config to exclude ModuleOne from ModuleTwo
+**Option 2: Externals Config to exclude ModuleOne from ModuleTwo**
 
 With this option, there is an externals config in the `webpack.config.babel.js` which explicitly excludes ModuleOne from being included in the final generate webpack bundle for ModuleTwo. Further, the config also specifies the root or global variable to use when in browser environment and the AMD module name to use when in node environment to find the excluded module and map it to the 'import ClassOne from ModuleOne' statements.
 
